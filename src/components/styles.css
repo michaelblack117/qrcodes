@@ -1,0 +1,142 @@
+body {
+  text-align: center;
+}
+
+/* ****************************** */
+/* Start General Tag Styles */
+/* ****************************** */
+.qrtag {
+  border: 1px solid;
+  border-radius: 20px;
+}
+
+.tag-title {
+  font-weight: 700;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.tag-id {
+  border: 2px solid;
+  border-radius: 30px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #87cefa; /* pico labs blue*/
+  color: white;
+}
+
+.tag-text {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+}
+/* ****************************** */
+/* End General Tag styles */
+/* ****************************** */
+
+/* ****************************** */
+/* Start Sticker Specific Styles */
+/* ****************************** */
+.sticker {
+  max-width: 60px;
+  max-height: 80px;
+  font-size: 6px;
+  padding-left: .1px;
+  padding-right: .1px;
+}
+
+.sticker .tag-title {
+  font-size: 8px;
+}
+
+.sticker .tag-id.short-background {
+  margin-left: 6px;
+  margin-right: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.sticker .tag-id .long-background {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+/* ****************************** */
+/* End Sticker Specific Styles */
+/* ****************************** */
+
+
+/* ****************************** */
+/* Start Hole Punch Specific Styles */
+/* ****************************** */
+.hole-punch {
+  width: 65px;
+  height: 130px;
+  flex-grow: 0;
+  flex-basis: auto;
+  font-size: 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.hole-punch .tag-title {
+  font-size: 12px;
+}
+
+.hole-punch .tag-id {
+  font-size: 8px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+/* ****************************** */
+/* End Sticker Specific Styles */
+/* ****************************** */
+
+/* ****************************** */
+/* Start RFID Specific Styles */
+/* ****************************** */
+.rfid {
+  width: 100px;
+  height: 160px;
+  flex-grow: 0;
+  flex-basis: auto;
+  font-size: 6px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.rfid .tag-title {
+  font-size: 14px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+
+.rfid .tag-report {
+  font-size: 8px;
+  margin: 1px;
+  margin-bottom: 3px;
+}
+
+.rfid .tag-id {
+  font-size: 9px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.rfid .tag-text {
+  font-size: 8px;
+  padding-bottom: 0px;
+}
+
+.rfid .tag-footer {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 2px;
+  padding-bottom: 2px;
+}
+
+
+/* ****************************** */
+/* End Sticker Specific Styles */
+/* ****************************** */
