@@ -34,12 +34,19 @@ class QRForm extends React.Component {
   QRCodeLength() {
     const { url, prefix, length, suffix, fixedId } = this.state;
     if (this.isFixed()) {
-      return fixedId.length;
+      return url.length + fixedId.length;
     }
     return url.length + prefix.length + parseInt(length, 10) + suffix.length;
   }
-  showWarning() {
-    if (this.QRCodeLength() >= 32) {
+  showResolutionWarning() {
+    var length = this.QRCodeLength();
+    if (length >= 26) {
+      return true;
+    }
+    return false;
+  }
+  showDuplicateWarning() {
+    if (this.isFixed() && this.state.quantity > 1) {
       return true;
     }
     return false;
@@ -121,11 +128,11 @@ class QRForm extends React.Component {
                 <Form.Group as={Col}>
                   <Form.Label>*ID Length</Form.Label>
                   <Form.Control
-                    required
+                    required={!this.isFixed()}
                     id="length"
                     value={this.state.length}
                     onChange={this.handleChange}
-                    min={1}
+                    min={!this.isFixed() ? 1 : 0}
                     type="number" />
                   <Form.Control.Feedback type="invalid">
                     Must be a number greater than zero
@@ -206,17 +213,30 @@ class QRForm extends React.Component {
           </Form.Group>
         </Row>
         <br/>
-        {this.showWarning() &&
+
+        {this.showResolutionWarning() &&
         <Alert variant="warning">
           <Alert.Heading>QR Resolution Warning</Alert.Heading>
           <p>The length of the full url may cause the QR code resolution to be inadequate for any device to scan</p>
+          <p>If you choose the RFID Tag Type then the resolution will be fine but check to make sure the ID doesn't extend farther than the background</p>
         </Alert>}
-        <Button block type="submit" >Generate QR Codes</Button>
+
+        {this.showDuplicateWarning() &&
+        <Alert variant="warning">
+          <Alert.Heading>Warning</Alert.Heading>
+          <p>You are about to print multiple tags with the same ID</p>
+        </Alert>}
+
+        <Button block type="submit" disabled={this.props.downloading}>Generate QR Codes</Button>
       </Form>
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return {
+    downloading: state.downloading
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
     generate: (url, idType, prefix, length, suffix, quantity, tagType) => {
@@ -228,4 +248,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(QRForm);
+export default connect(mapStateToProps, mapDispatchToProps)(QRForm);
