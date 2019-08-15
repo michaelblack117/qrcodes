@@ -38,8 +38,8 @@ body {
 /* Start Sticker Specific Styles */
 /* ****************************** */
 .sticker {
-  width: 80px;
-  height: 110px;
+  width: 25mm; /* 80px;*/
+  height: 30mm; /* 110px; */
   font-size: 6px;
   flex-grow: 0;
   flex-basis: auto;
@@ -49,6 +49,7 @@ body {
 
 .sticker .tag-title {
   font-size: 12px;
+  margin-top: 3px;
 }
 
 .sticker .tag-id {
@@ -81,8 +82,8 @@ body {
 /* Start Hole Punch Specific Styles */
 /* ****************************** */
 .hole-punch {
-  width: 120px;
-  height: 200px;
+  width: 32mm;
+  height: 53mm;
   flex-grow: 0;
   flex-basis: auto;
   font-size: 8px;
@@ -111,8 +112,8 @@ body {
 /* Start RFID Specific Styles */
 /* ****************************** */
 .rfid {
-  width: 200px;
-  height: 332px;
+  width: 53mm;
+  height: 85mm;
   flex-grow: 0;
   flex-basis: auto;
   font-size: 6px;
@@ -139,11 +140,11 @@ body {
 }
 
 .rfid .tag-text {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .rfid .tag-footer {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   margin-top: 5px;
   padding-bottom: 5px;
