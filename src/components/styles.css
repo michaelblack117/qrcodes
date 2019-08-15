@@ -38,15 +38,21 @@ body {
 /* Start Sticker Specific Styles */
 /* ****************************** */
 .sticker {
-  max-width: 60px;
-  max-height: 80px;
+  width: 80px;
+  height: 110px;
   font-size: 6px;
-  padding-left: .1px;
-  padding-right: .1px;
+  flex-grow: 0;
+  flex-basis: auto;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 .sticker .tag-title {
-  font-size: 8px;
+  font-size: 12px;
+}
+
+.sticker .tag-id {
+  font-size: 9px;
 }
 
 .sticker .tag-id.short-background {
@@ -56,11 +62,15 @@ body {
   padding-right: 6px;
 }
 
-.sticker .tag-id .long-background {
+.sticker .tag-id.long-background {
   padding-left: 0px;
   padding-right: 0px;
   margin-left: 0px;
   margin-right: 0px;
+}
+
+.sticker .tag-text {
+  font-size: 9px;
 }
 /* ****************************** */
 /* End Sticker Specific Styles */
@@ -71,23 +81,27 @@ body {
 /* Start Hole Punch Specific Styles */
 /* ****************************** */
 .hole-punch {
-  width: 65px;
-  height: 130px;
+  width: 120px;
+  height: 200px;
   flex-grow: 0;
   flex-basis: auto;
-  font-size: 6px;
-  padding-left: 2px;
-  padding-right: 2px;
+  font-size: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .hole-punch .tag-title {
-  font-size: 12px;
+  font-size: 18px;
 }
 
 .hole-punch .tag-id {
-  font-size: 8px;
-  margin-left: 1px;
-  margin-right: 1px;
+  font-size: 12px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.hole-punch .tag-text {
+  font-size: 12px;
 }
 /* ****************************** */
 /* End Sticker Specific Styles */
@@ -97,43 +111,42 @@ body {
 /* Start RFID Specific Styles */
 /* ****************************** */
 .rfid {
-  width: 100px;
-  height: 160px;
+  width: 200px;
+  height: 332px;
   flex-grow: 0;
   flex-basis: auto;
   font-size: 6px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .rfid .tag-title {
-  font-size: 14px;
+  font-size: 28px;
   padding-top: 5px;
   padding-bottom: 0px;
 }
 
 .rfid .tag-report {
-  font-size: 8px;
+  font-size: 12px;
   margin: 1px;
   margin-bottom: 3px;
 }
 
 .rfid .tag-id {
-  font-size: 9px;
-  margin-left: 15px;
-  margin-right: 15px;
+  font-size: 16px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .rfid .tag-text {
-  font-size: 8px;
-  padding-bottom: 0px;
+  font-size: 14px;
 }
 
 .rfid .tag-footer {
-  font-size: 12px;
-  font-weight: 600;
-  margin-top: 2px;
-  padding-bottom: 2px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 5px;
+  padding-bottom: 5px;
 }
 
 

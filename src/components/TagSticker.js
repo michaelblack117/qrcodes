@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import { QRCode } from 'react-qrcode-logo';
 
 function idBackground(tagId) {
-  return tagId.length > 7 ? "long-background" : "short-background"
+  return tagId.length > 6 ? "long-background" : "short-background"
 }
 const TagSticker = ({ tagId, url, logo }) => {
   return (
@@ -11,12 +11,12 @@ const TagSticker = ({ tagId, url, logo }) => {
       <div className="tag-title">Scan Me</div>
       <QRCode
         value={url + "/" + tagId}
-        size={25}
+        size={50}
         quietZone="2px"
-        ecLevel="L"
+        ecLevel="M"
         logoImage={logo} />
       <div className={"tag-id " + idBackground(tagId)}>{tagId}</div>
-      <div className="tag-text">picolabs.io</div>
+      <div className="tag-text">tag.picolabs.io</div>
     </Col>
   );
 }

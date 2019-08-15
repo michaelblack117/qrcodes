@@ -8,9 +8,9 @@ import './styles.css';
 function heightByTagType(tagType) {
   switch (tagType) {
     case 'Sticker':
-      return 40;
+      return 32;
     case 'HolePunch':
-      return 40;
+      return 55;
     case 'Rfid':
       return 70;
     default:
@@ -20,7 +20,7 @@ function heightByTagType(tagType) {
 function widthByTagType(tagType) {
   switch (tagType) {
     case 'Sticker':
-      return 35;
+      return 28;
     case 'HolePunch':
       return 35;
     case 'Rfid':
@@ -34,7 +34,7 @@ const DownloadButton = ({label, tagType, download, downloading, downloadComplete
     <button
       onClick={() => {
         const STARTING_HEIGHT = 5;
-        const STARTING_WIDTH = 3;
+        const STARTING_WIDTH = 3.5;
         const HEIGHT_INCREMENT = heightByTagType(tagType);
         const WIDTH_INCREMENT = widthByTagType(tagType);
 
@@ -69,7 +69,9 @@ const DownloadButton = ({label, tagType, download, downloading, downloadComplete
             }
             if (runningHeight + HEIGHT_INCREMENT > PAGE_HEIGHT) {
               runningHeight = STARTING_HEIGHT;
-              pdf.addPage();
+              if (i < inputs.length - 1) {
+                pdf.addPage();
+              }
             }
 
             i++

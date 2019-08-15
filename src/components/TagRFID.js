@@ -9,13 +9,13 @@ const TagRFID = ({ tagId, url, logo }) => {
       <div className="tag-report">to refill paper towels</div>
       <QRCode
         value={url + "/" + tagId}
-        size={50}
-        quietZone="10px"
-        ecLevel="L"
+        size={150}
+        quietZone="1px"
+        ecLevel="M"
         logoImage={logo} />
       <div className="tag-id">{tagId}</div>
       <div className="tag-text">or enter code at
-        <span style={{ color: "#87cefa"}}> picolabs.io</span>
+        <span style={{ color: "#87cefa"}}> tag.picolabs.io</span>
       </div>
       <div className="tag-footer">Pico Labs</div>
     </Col>
