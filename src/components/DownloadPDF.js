@@ -9,10 +9,10 @@ const pxToMm = (px) => {
   return Math.floor(px/document.getElementById('myMm').offsetHeight);
 };
 
-const DownloadButton = ({label, tagType, download, downloading, downloadComplete}) => (
+const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) => (
   <div>
     <div id="myMm" style={{height: "1mm"}} />
-    <button
+    <button className="btn-success"
       onClick={() => {
         // tag dimensions
         var tags = document.getElementsByClassName('qrtag');
@@ -96,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadPDF);

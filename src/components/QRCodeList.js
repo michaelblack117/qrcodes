@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Tag from './Tag';
+import { storeFullURL } from '../actions';
 import './styles.css';
 
 export function randomString(length) {
@@ -15,14 +16,15 @@ export function randomString(length) {
 
 class QRCodeList extends React.Component {
   renderList = () => {
-    const { idType, prefix, length, suffix, fixedId, quantity } = this.props;
+    const { url, idType, prefix, length, suffix, fixedId, quantity,
+      storeFullURL } = this.props;
     var list = [];
     for (var i = 0; i < quantity; i++) {
       let tagId = (idType === "fixed") ? fixedId :
         prefix + randomString(length) + suffix;
-      list.push(
-        <Tag tagId={tagId} key={i} />
-      );
+
+      storeFullURL(url + '/' + tagId);
+      list.push(<Tag tagId={tagId} key={i} />);
     }
     return list;
   }
@@ -39,6 +41,7 @@ class QRCodeList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    url: state.url,
     idType: state.idType,
     prefix: state.prefix,
     length: state.length,
@@ -47,4 +50,11 @@ const mapStateToProps = (state) => {
     quantity: state.quantity
   }
 }
-export default connect(mapStateToProps)(QRCodeList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeFullURL: (url) => {
+      dispatch(storeFullURL(url));
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(QRCodeList);

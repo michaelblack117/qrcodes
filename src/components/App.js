@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import QRForm from './QRForm';
-import DownloadButton from './DownloadButton';
+import DownloadPDF from './DownloadPDF';
+import DownloadText from './DownloadText';
 import QRCodeList from './QRCodeList';
 
 class App extends React.Component {
@@ -14,7 +15,15 @@ class App extends React.Component {
         </div>
         <br />
         <div className="container">
-          {this.props.quantity > 0 && <DownloadButton elementId="qrcodes" label="Download QR Codes" />}
+          {this.props.quantity > 0 &&
+            <div className="row">
+              <div className="col">
+                <DownloadPDF elementId="qrcodes" label="Download QR Codes" />
+              </div>
+              <div className="col">
+                <DownloadText label="Download URL List"/>
+              </div>
+            </div>}
           <br /><br />
           {this.props.quantity > 0 && <QRCodeList />}
         </div>

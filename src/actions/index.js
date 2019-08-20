@@ -24,6 +24,19 @@ export function create(url, idType, fixedId, quantity, tagType) {
   }
 }
 
+export const STORE_FULL_URL = 'STORE_FULL_URL';
+export function storeFullURL(url) {
+  return {
+    type: STORE_FULL_URL,
+    url: url
+  }
+}
+
+export const RESET_URL_LIST = 'RESET_URL_LIST';
+export function resetURLList() {
+  return { type: RESET_URL_LIST }
+}
+
 export const DOWNLOADING = 'DOWNLOADING';
 export function download() {
   return {

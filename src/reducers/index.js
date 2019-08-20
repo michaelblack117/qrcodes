@@ -1,4 +1,11 @@
-import { GENERATE, CREATE_FIXED, DOWNLOADING, DOWNLOADED } from '../actions';
+import {
+  GENERATE,
+  CREATE_FIXED,
+  STORE_FULL_URL,
+  RESET_URL_LIST,
+  DOWNLOADING,
+  DOWNLOADED
+} from '../actions';
 
 export const initialState = {
   url: "",
@@ -9,6 +16,7 @@ export const initialState = {
   quantity: 0,
   tagType: "",
   fixedId: "",
+  urlList: [],
   downloading: false
 }
 
@@ -32,6 +40,16 @@ export default function reducer(state = initialState, action) {
         quantity: action.quantity,
         tagType: action.tagType
       })
+    case STORE_FULL_URL:
+      return {
+        ...state,
+        urlList: [...state.urlList, action.url, "\n"]
+      }
+    case RESET_URL_LIST:
+      return {
+        ...state,
+        urlList: []
+      }
     case DOWNLOADING:
       return Object.assign({}, state, {
         downloading: true

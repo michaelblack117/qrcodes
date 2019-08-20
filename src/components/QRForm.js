@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 import { connect } from 'react-redux';
 import { randomString } from './QRCodeList';
 
-import { generate, create } from '../actions';
+import { generate, create, resetURLList } from '../actions';
 
 class QRForm extends React.Component {
   constructor(props) {
@@ -76,6 +76,8 @@ class QRForm extends React.Component {
 
     const { url, idType, prefix, length, suffix, quantity, tagType, fixedId } = this.state;
 
+    this.props.resetURLList();
+    
     if (this.isFixed()) {
       this.props.create(url, idType, fixedId, quantity, tagType);
     }
@@ -244,6 +246,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     create: (url, idType, fixedId, quantity, tagType) => {
       dispatch(create(url, idType, fixedId, quantity, tagType))
+    },
+    resetURLList: () => {
+      dispatch(resetURLList());
     }
   }
 }
