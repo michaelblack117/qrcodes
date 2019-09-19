@@ -43,7 +43,7 @@ export default function reducer(state = initialState, action) {
     case STORE_FULL_URL:
       return {
         ...state,
-        urlList: [...state.urlList, action.url, "\n"]
+        urlList: [...state.urlList, action.url + "\n"]
       }
     case RESET_URL_LIST:
       return {
