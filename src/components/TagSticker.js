@@ -8,7 +8,7 @@ function idBackground(tagId) {
 const TagSticker = ({ tagId, url, logo }) => {
   return (
     <Col className="qrtag sticker">
-      <div className="tag-title">Scan Me</div>
+      <div className="tag-title">Scan If Found</div>
       <QRCode
         value={url + "/" + tagId}
         size={50}
