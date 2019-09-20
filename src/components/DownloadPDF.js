@@ -29,10 +29,11 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
         const PAGE_HEIGHT = pdf.internal.pageSize.getHeight();
         const PAGE_WIDTH = pdf.internal.pageSize.getWidth();
         const STARTING_WIDTH = (tagType === "Rfid") ? 2 : 10;
-        const STARTING_HEIGHT = (tagType === "Rfid") ? 3 : 10;
+        const STARTING_HEIGHT = 10;
         const WIDTH_INCREMENT = TAG_WIDTH + 5;
         const HEIGHT_INCREMENT = TAG_HEIGHT + 5;
 
+        // to keep track of the pdf x and y coordinates to write to
         var runningHeight = STARTING_HEIGHT;
         var runningWidth = STARTING_WIDTH;
 
@@ -46,12 +47,15 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             downloadComplete() // set redux state.downloading = false
             return;
           }
-          // testing...
+
+          // grab the text elements and canvas of the tag
           var title = tags[i].getElementsByClassName("tag-title")[0]
           var qrcode = tags[i].getElementsByTagName("canvas")[0]
           var id = tags[i].getElementsByClassName("tag-id")[0]
-          var text = tags[i].getElementsByClassName("tag-text")[0]
+          var text = tags[i].getElementsByClassName("tag-text")
 
+          // write the title of the tag to the pdf
+          pdf.setTextColor(0); // black text color
           pdf.setFontSize(TITLE_FONT_SIZE);
           pdf.text(
             title.innerText,
@@ -60,8 +64,10 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             "center"
           );
 
+          // convert the canvas to image data .png specifically
           var imgData = qrcode.toDataURL('image/png');
 
+          // add the qrcode to the pdf
           pdf.addImage(
             imgData,
             'PNG',
@@ -71,17 +77,19 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             pxToMm(qrcode.offsetHeight)
           );
 
-          pdf.setFillColor("#87cefa");
+          // add the rounded background for the id
+          pdf.setFillColor("#87cefa"); // root pico blue
           pdf.roundedRect(
             runningWidth,
             runningHeight + pxToMm(id.offsetTop) - pxToMm(id.offsetHeight) + 1,
-            pxToMm(id.offsetWidth),
+            TAG_WIDTH,
             pxToMm(id.offsetHeight),
             2,
             2,
             "F"
           );
 
+          // add the id of the tag to the pdf
           pdf.setFontSize(ID_FONT_SIZE);
           pdf.text(
             id.innerText,
@@ -90,21 +98,45 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             "center"
           );
 
+          // add the text below to the tag
           pdf.setFontSize(TEXT_FONT_SIZE);
           pdf.text(
-            text.innerText,
+            text[0].innerText,
             runningWidth + (TAG_WIDTH / 2),
-            runningHeight + pxToMm(text.offsetTop),
+            runningHeight + pxToMm(text[0].offsetTop),
             "center"
           );
-          // ...testing
 
+          // add extra text if the tag was big enough to have more text
+          if (text[1]) {
+            pdf.setTextColor("#87cefa") // root pico blue
+            pdf.text(
+              text[1].innerText,
+              runningWidth + (TAG_WIDTH / 2),
+              runningHeight + pxToMm(text[1].offsetTop),
+              "center"
+            );
+            if (text[2]) {
+              pdf.setTextColor("#87cefa") // root pico blue
+              pdf.text(
+                text[2].innerText,
+                runningWidth + (TAG_WIDTH / 2),
+                runningHeight + pxToMm(text[2].offsetTop),
+                "center"
+              );
+            }
+          }
+
+          // update x coordinate to the next tag space
           runningWidth += WIDTH_INCREMENT;
 
+          // if we exceed the page width
+          // update y coordinate to next row and reset x coordinate
           if (runningWidth + WIDTH_INCREMENT > PAGE_WIDTH) {
             runningWidth = STARTING_WIDTH;
             runningHeight += HEIGHT_INCREMENT;
           }
+          // new page if we exceed the height of the pdf
           if (runningHeight + HEIGHT_INCREMENT > PAGE_HEIGHT) {
             runningHeight = STARTING_HEIGHT;
             if (i < tags.length - 1) {
