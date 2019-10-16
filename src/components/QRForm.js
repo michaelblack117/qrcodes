@@ -25,7 +25,8 @@ class QRForm extends React.Component {
       quantity: 0,
       tagType: "",
       fixedId: "",
-      validated: false
+      validated: false,
+      available: true
     }
   }
   isFixed() {
@@ -51,6 +52,18 @@ class QRForm extends React.Component {
     }
     return false;
   }
+  async checkAvailability(url, tagId) {
+    // does someone already own the tag?
+    const response = await fetch(`https://manifold.picolabs.io:9090/sky/cloud/VPa1BfnbD1DK9eJWzaszXb/io.picolabs.ds/getItem?domain=${url}&key=${tagId}`)
+    const json = await response.json();
+    console.log(json);
+    if (json !== null) {
+      this.setState({ available: false })
+    }
+    else {
+      this.setState({ available: true });
+    }
+  }
 
   handleTabSelect = (tab) => {
     this.setState({ idType: tab })
@@ -60,9 +73,16 @@ class QRForm extends React.Component {
     if (id === "suffix" || id === "prefix" || id === "fixedId") {
       value = value.toUpperCase();
     }
+
     this.setState({
       [id]: value
     });
+
+    if (id === "url" || id === "fixedId") {
+      const url = id === "url" ? value : this.state.url;
+      const tagId = id === "fixedId" ? value: this.state.fixedId;
+      this.checkAvailability(url, tagId);
+    }
   }
   handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -77,7 +97,7 @@ class QRForm extends React.Component {
     const { url, idType, prefix, length, suffix, quantity, tagType, fixedId } = this.state;
 
     this.props.resetURLList();
-    
+
     if (this.isFixed()) {
       this.props.create(url, idType, fixedId, quantity, tagType);
     }
@@ -92,6 +112,7 @@ class QRForm extends React.Component {
     return `${url}/${id}`;
   }
   render() {
+    console.log(this.state.available);
     return (
       <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
         <Row>
@@ -227,6 +248,12 @@ class QRForm extends React.Component {
         <Alert variant="warning">
           <Alert.Heading>Warning</Alert.Heading>
           <p>You are about to print multiple tags with the same ID</p>
+        </Alert>}
+
+        {this.isFixed() && !this.state.available &&
+        <Alert variant="warning">
+          <Alert.Heading>Warning</Alert.Heading>
+            <p>This tag is already in use by another user. If you are the owner of this id diregard this warning. Othewise, consider making a different tag ID</p>
         </Alert>}
 
         <Button block type="submit" disabled={this.props.downloading}>Generate QR Codes</Button>

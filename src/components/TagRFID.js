@@ -16,7 +16,7 @@ const TagRFID = ({ tagId, url, logo }) => {
       <div className="tag-id">{tagId}</div>
       <div className="tag-text">or enter code at</div>
       <div className="tag-text" style={{ color: "#87cefa"}}>tag.picolabs.io</div>
-      <div className="tag-text" className="tag-footer">Pico Labs</div>
+      <div className="tag-text tag-footer">Pico Labs</div>
     </Col>
   );
 }

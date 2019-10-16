@@ -48,12 +48,12 @@ body {
 }
 
 .sticker .tag-title {
-  font-size: 10px;
+  font-size: 9px;
   margin-top: 3px;
 }
 
 .sticker .tag-id {
-  font-size: 9px;
+  font-size: 8px;
 }
 
 .sticker .tag-id.short-background {
@@ -71,7 +71,7 @@ body {
 }
 
 .sticker .tag-text {
-  font-size: 9px;
+  font-size: 8px;
 }
 /* ****************************** */
 /* End Sticker Specific Styles */
@@ -92,17 +92,17 @@ body {
 }
 
 .hole-punch .tag-title {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .hole-punch .tag-id {
-  font-size: 12px;
+  font-size: 10px;
   margin-left: 5px;
   margin-right: 5px;
 }
 
 .hole-punch .tag-text {
-  font-size: 12px;
+  font-size: 10px;
 }
 /* ****************************** */
 /* End Sticker Specific Styles */

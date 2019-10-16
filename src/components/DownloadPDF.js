@@ -8,7 +8,23 @@ const pxToMm = (px) => {
   return Math.floor(px/document.getElementById('myMm').offsetHeight);
 };
 
-const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) => (
+async function postData(url = '', data = {}) {
+  const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow',
+      referrer: 'no-referrer',
+      body: JSON.stringify(data)
+    });
+  return await response.json();
+}
+
+const DownloadPDF = ({url, label, tagType, download, downloading, downloadComplete}) => (
   <div>
     <div id="myMm" style={{height: "1mm"}} />
     <button className="btn-success"
@@ -23,6 +39,7 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
 
 
         // pdf page dimensions
+        // TODO: change page dimensions for stickers as a 12 X 18
         var pdf = (tagType === "Rfid") ?
           new jsPDF('p','mm',"credit-card") : // rfid/credit cards are 53x85
           new jsPDF();                        // defaults pp, mm, 210×297
@@ -50,12 +67,14 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
 
           // grab the text elements and canvas of the tag
           var title = tags[i].getElementsByClassName("tag-title")[0]
+          var report = tags[i].getElementsByClassName("tag-report")
           var qrcode = tags[i].getElementsByTagName("canvas")[0]
           var id = tags[i].getElementsByClassName("tag-id")[0]
           var text = tags[i].getElementsByClassName("tag-text")
 
           // write the title of the tag to the pdf
           pdf.setTextColor(0); // black text color
+          pdf.setFontStyle("bold");
           pdf.setFontSize(TITLE_FONT_SIZE);
           pdf.text(
             title.innerText,
@@ -63,6 +82,17 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             runningHeight + pxToMm(title.offsetTop),
             "center"
           );
+          pdf.setFontStyle("normal")
+
+          if (report[0]) {
+            pdf.setFontSize(10)
+            pdf.text(
+              report[0].innerText,
+              runningWidth + (TAG_WIDTH / 2),
+              runningHeight + pxToMm(title.offsetTop) + 5,
+              "center"
+            );
+          }
 
           // convert the canvas to image data .png specifically
           var imgData = qrcode.toDataURL('image/png');
@@ -72,7 +102,7 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             imgData,
             'PNG',
             runningWidth + pxToMm(qrcode.offsetLeft),
-            runningHeight + pxToMm(title.offsetTop) + 2,
+            runningHeight + pxToMm(title.offsetTop) + (report[0] ? 8 : 2),
             pxToMm(qrcode.offsetWidth),
             pxToMm(qrcode.offsetHeight)
           );
@@ -90,6 +120,7 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
           );
 
           // add the id of the tag to the pdf
+          pdf.setFontStyle("bold")
           pdf.setFontSize(ID_FONT_SIZE);
           pdf.text(
             id.innerText,
@@ -97,6 +128,7 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             runningHeight + pxToMm(id.offsetTop),
             "center"
           );
+          pdf.setFontStyle("normal")
 
           // add the text below to the tag
           pdf.setFontSize(TEXT_FONT_SIZE);
@@ -117,13 +149,15 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
               "center"
             );
             if (text[2]) {
-              pdf.setTextColor("#87cefa") // root pico blue
+              pdf.setTextColor(0)
+              pdf.setFontStyle("bold")
               pdf.text(
                 text[2].innerText,
                 runningWidth + (TAG_WIDTH / 2),
                 runningHeight + pxToMm(text[2].offsetTop),
                 "center"
               );
+              pdf.setFontStyle("normal")
             }
           }
 
@@ -144,6 +178,20 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
             }
           }
 
+          // update database with tag code
+          try {
+            postData(
+              "https://manifold.picolabs.io:9090/sky/event/VPa1BfnbD1DK9eJWzaszXb/qrcode_update/wrangler/ds_update",
+              {
+                domain: url,
+                key: id.innerText,
+                value: id.innerText
+              }
+            );
+          } catch (error) {
+            console.error(error);
+          }
+
           i++
           convertNextTag()
         }
@@ -158,6 +206,7 @@ const DownloadPDF = ({label, tagType, download, downloading, downloadComplete}) 
 
 const mapStateToProps = (state) => {
   return {
+    url: state.url,
     tagType: state.tagType,
     downloading: state.downloading
   }
